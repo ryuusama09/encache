@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "object-sizeof": "^2.6.5"
+  }
+}
