@@ -6,10 +6,15 @@
 
 ## Examples 
 ``` set up cache ```
+
 ``` const Cache = require('encache')```
+
 ``` const obj = new Cache(50)```
+
 ``` \\ 50 determines 50 bytes of cache memory limit```
+
 ``` obj.setPolicy('FIFO')```
+
 ``` \\ now use the aysnc methods get and put to access and update the cache ```
 
 
