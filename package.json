@@ -4,7 +4,7 @@
     "fnv-plus": "^1.3.1",
     "object-sizeof": "^2.6.5"
   },
-  "name": "silo",
+  "name": "encache",
   "description": "overly lightweight inmemory cache for your nodejs server",
   "version": "1.0.0",
   "main": "index.js",
