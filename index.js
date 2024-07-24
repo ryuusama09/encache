@@ -1,24 +1,41 @@
 // library for cache-node .... 
 // 
-import { encoderFactory } from './encoding';
+const encoderFactory = require('./encoding/method');
+const policyFactory = require('./policy/policy') 
+const memory = require('./memory/module')
+const monitor = require('./metrics/metric')
 
-class CacheJs {
-
-    constructor(size ){
-        // intialize cache memory , slab allocat
-        allocate(this.memory)
-        this.encodingMethod = encodeBase64
+class cache{
+    
+    constructor(size){
+        this.memory = new memory(size)
+        this.encodingMethod = encoderFactory.create()
+        this.monitor = new monitor(this.memory)
     }
     setEncoding(method){
         this.encoder = encoderFactory.create(method)
     } 
     setPolicy(policy){
-        if (policyList.find(policy) == -1){
-            throw new Error("Invalid policy")
-        }
-        this.policy = policy
+       this.policy = policyFactory.create(policy , this.memory , this.monitor)
     }
-    put(){}    
-    get(){}
-    // internal delete function to evict the cache 
+
+    async put(key , data){
+        await this.policy.put(key ,data)
+    }    
+    async get(key){
+       return await this.policy.get(key)
+    }
+    hitRatio(){
+        return this.monitor.hitRatio() 
+    }
+    missRatio(){
+        return this.monitor.missRatio()
+    }
+    memoryConsumption(){
+        return this.monitor.memoryConsumption()
+    }
+
 }
+module.exports = cache
+
+ 

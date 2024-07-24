@@ -1,32 +1,29 @@
 const sizeof = require('object-sizeof')
 class monitor {
 
-    constructor(memory){
+    constructor(memory) {
         this.memory = memory
         this.hits = 0;
         this.references = 0;
     }
-    hitRatio(){
-        return this.hits/this.references
+    hit() {
+        this.hits++
     }
-    missRatio(){
+    reference() {
+        this.references++
+    }
+    hitRatio() {
+        return (1.0 * this.hits / this.references)
+    }
+    missRatio() {
         return 1 - this.hitRatio()
     }
-    memoryConsumption(){
-        return sizeof(this.memory.module)
+    memoryConsumption() {
+        return this.memory.current
     }
-    Latency(){ 
-        
-    } 
-    cpuUtilization(){
-        return ""
+    Latency(time) {
+        // to be implemented 
     }
 
-
-
-    // function to calculate hit ratio 
-   // function to calculate miss ratio
-   // avg latency
-   //memory consumption
-   // cpu utilization
 }
+module.exports = monitor

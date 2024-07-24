@@ -1,5 +1,17 @@
 {
   "dependencies": {
+    "async-mutex": "^0.5.0",
+    "fnv-plus": "^1.3.1",
     "object-sizeof": "^2.6.5"
-  }
+  },
+  "name": "silo",
+  "description": "overly lightweight inmemory cache for your nodejs server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "@ryuusama09 , @dedsec_29",
+  "license": "ISC"
 }
