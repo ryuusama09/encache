@@ -7,7 +7,7 @@ const monitor = require('./metrics/metric')
 
 class cache{
     
-    constructor(size){
+    constructor(size = 5000){
         this.memory = new memory(size)
         this.encodingMethod = encoderFactory.create()
         this.monitor = new monitor(this.memory)

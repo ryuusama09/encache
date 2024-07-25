@@ -5,17 +5,30 @@
 ### 3. 2 lines of code required to setup the cache 
 
 ## Examples 
-``` set up cache ```
+### importing the cache 
 
 ``` const Cache = require('encache')```
+### or
+``` import Cache from 'encache' ```
 
+### creating the cache instance 
+### by default it reserves 5000 bytes , else mention the memory limit in bytes while forming the object 
 ``` const obj = new Cache(50)```
 
 ``` \\ 50 determines 50 bytes of cache memory limit```
 
-``` obj.setPolicy('FIFO')```
+### set the cache policy 
+### currently two policies are available :
+###  1. FIFO
+###  2. TTL
+### eg : ``` obj.setPolicy('FIFO')```
 
-``` \\ now use the aysnc methods get and put to access and update the cache ```
+### usage of cache methods to manage your data store 
+### 1. get(key) --> async method (to be used with await)
+### 2. put(key , data) --> async method
+
+### metrics 
+### hitRatio, missRatio , currentMemoryUsage . 
 
 
 
