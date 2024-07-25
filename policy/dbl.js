@@ -1,5 +1,5 @@
 class Node {
-    constructor(key, value ,time) {
+    constructor(key, value ,time = 0) {
       this.key = key;
       this.value = value;
       this.time = time;

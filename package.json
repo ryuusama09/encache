@@ -4,12 +4,11 @@
     "body-parser": "^1.20.2",
     "express": "^4.19.2",
     "fnv-plus": "^1.3.1",
-    "js-sorted-set": "^0.7.0",
     "object-sizeof": "^2.6.5"
   },
   "name": "encache",
   "description": "overly lightweight inmemory cache for your nodejs server",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
