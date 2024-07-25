@@ -1,34 +1,43 @@
 # Encache
-## A lightweight , Inmemory Async Cache for your Nodejs Server 
-### 1. Quick replacement for inmemory caches like memcache or redis 
-### 2. No need to setup a cache server 
-### 3. 2 lines of code required to setup the cache 
+#### A lightweight , Inmemory Async Cache for your Nodejs Server. <br/>
+1. Quick replacement for inmemory caches like memcache or redis
+2. No need to setup a cache server 
+3. 2 lines of code required to setup the cache 
 
-## Examples 
-### importing the cache 
-
+## Documentation 
+### 
+### 1. Importing the cache 
+####
 ``` const Cache = require('encache')```
-### or
+#### or
 ``` import Cache from 'encache' ```
 
-### creating the cache instance 
-### by default it reserves 5000 bytes , else mention the memory limit in bytes while forming the object 
-``` const obj = new Cache(50)```
+### 2. Creating the cache instance 
+by default the cache object reserves 5000 bytes as max memory limit .    
+User can provide custom memory limit to their cache according to performance needs .  
 
-``` \\ 50 determines 50 bytes of cache memory limit```
+``` const store = new Cache(50)```
 
-### set the cache policy 
-### currently two policies are available :
-###  1. FIFO
-###  2. TTL
-### eg : ``` obj.setPolicy('FIFO')```
+### 3. Set the cache policy 
+#### currently three policies are available :
+1. FIFO
+2. TTL
+3. LRU
+ 
+```eg: store.setPolicy('FIFO')```
+#### When you set the policy to ttl , you can set the time to live for the 
+#### cache elements in milliseconds 
+```\\ set the volatility to 1000 ms ```  
+``` store.setTTL(1000)```
 
-### usage of cache methods to manage your data store 
-### 1. get(key) --> async method (to be used with await)
-### 2. put(key , data) --> async method
+### 4. Usage of cache methods to manage your data store 
+```1. store.get(key) --> async method (to be used with await)```  
+```2. store.put(key , data) --> async method```
 
-### metrics 
-### hitRatio, missRatio , currentMemoryUsage . 
+### 5. Metrics 
+```1. hitRatio()```  
+```2. missRatio()```  
+```3. memoryConsumption()```
 
 
 
