@@ -14,11 +14,13 @@ class memory {
     getHash(value) {
         return fnv.fast1a64utf(value.toString());
     }
+    empty(){
+        return  Object.keys(this.store).length === 0
+    }
     set(key, value) {
         const wasPresent = this.has(key);
         const hashValue = this.getHash(key);
         this.store[hashValue] = value;
-        console.log(this.store[hashValue])
         this.current += wasPresent ? sizeof(value) : 0;
         if (!wasPresent) { this.mutexPool.set(this.getHash(key), new Mutex()) }
     }
@@ -30,10 +32,10 @@ class memory {
         const hashValue = this.getHash(key);
         return this.store[hashValue] != null;
     }
-    remove(key) {
+    delete(key) {
         const hashValue = this.getHash(key);
         const value = this.store[hashValue];
-        this.store[hashValue] = null;
+        delete this.store[hashValue] ;
         this.current -= sizeof(value)
     }
 

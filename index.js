@@ -18,7 +18,10 @@ class cache{
     setPolicy(policy){
        this.policy = policyFactory.create(policy , this.memory , this.monitor)
     }
-
+    setTTl(ttl){
+        if(this.policy.type() !== 'TTL')throw new Error('policy not set to TTL')
+        this.policy.validity = ttl
+    }
     async put(key , data){
         await this.policy.put(key ,data)
     }    
