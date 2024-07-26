@@ -63,8 +63,7 @@ class LRU extends policy {
                 const node = new Node(_key , data)
                 this.add(node)
                 this.lruMap.set(_key , node)
-                this.memory.set(_key , data)
-                this.memory.current += sizeof(data)
+                this.memory.set(_key , data)     
             }
         } finally {
             release()
@@ -81,7 +80,6 @@ class LRU extends policy {
         this.memory.delete(key)
         this.lruMap.delete(key)
         this.memory.mutexPool.delete(this.memory.getHash(key))
-        this.memory.current -= sizeof(delNode.value)
         }finally{
             release()
         }

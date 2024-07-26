@@ -21,7 +21,7 @@ class memory {
         const wasPresent = this.has(key);
         const hashValue = this.getHash(key);
         this.store[hashValue] = value;
-        this.current += wasPresent ? sizeof(value) : 0;
+        this.current += wasPresent ? 0 : sizeof(value);
         if (!wasPresent) { this.mutexPool.set(this.getHash(key), new Mutex()) }
     }
     get(key) {

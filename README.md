@@ -8,6 +8,7 @@
 ### 
 ### 1. Importing the cache 
 ####
+``` npm install encache```  
 ``` const Cache = require('encache')```
 #### or
 ``` import Cache from 'encache' ```
@@ -20,9 +21,11 @@ User can provide custom memory limit to their cache according to performance nee
 
 ### 3. Set the cache policy 
 #### currently three policies are available :
-1. FIFO
-2. TTL
-3. LRU
+1. FIFO -> Standard Queue based first in , first out policy . Used as the default policy. 
+2. Lazy-TTL -> Lazily checks for the volatile keys based on their time to live.
+3. LRU -> Least recently used keys are evicted first.
+4. Random Eviction -> Randomly Evicts the keys.
+5. No Eviction -> Does not evict any keys if the cache memory limit is being exceeded.
  
 ```eg: store.setPolicy('FIFO')```
 #### When you set the policy to ttl , you can set the time to live for the 

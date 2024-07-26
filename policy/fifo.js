@@ -38,7 +38,6 @@ class FIFO extends policy {
      finally{ 
       this.queue.push(_key)
       this.memory.set(_key, data)
-      this.memory.current += sizeof(data)
      }
 
     } finally {
@@ -54,7 +53,6 @@ class FIFO extends policy {
     this.queue.shift()
     this.memory.delete(key)
     this.memory.mutexPool.delete(this.memory.getHash(key))
-    this.memory.current -= sizeof(value)
     }finally{
       release()
     }

@@ -6,7 +6,11 @@
   },
   "name": "encache",
   "description": "overly lightweight inmemory cache for your nodejs server",
-  "version": "1.0.3",
+  "version": "1.0.5",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ryuusama09/encache"
+  },
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

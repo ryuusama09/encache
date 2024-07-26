@@ -2,7 +2,9 @@
 const FIFO = require('./fifo')
 const LRU = require('./lru')
 const LFU = require('./lfu')
-const TTL = require('./ttl')  
+const TTL = require('./ttl')
+const Random = require('./random')
+const NoEviction = require('./noEviction')  
 
 class PolicyFactory {
   static create(type, memory, monitor) {
@@ -15,6 +17,10 @@ class PolicyFactory {
         return new LFU(memory, monitor);
       case 'TTL':
         return new TTL(memory, monitor);
+      case 'RANDOM':
+        return new Random(memory, monitor);
+      case 'NO_EVICTION':
+        return new NoEviction(memory, monitor);
       default:
         {
           return new FIFO();
