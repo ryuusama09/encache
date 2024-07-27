@@ -33,11 +33,18 @@ User can provide custom memory limit to their cache according to performance nee
 ```\\ set the volatility to 1000 ms ```  
 ``` store.setTTL(1000)```
 
-### 4. Usage of cache methods to manage your data store 
+### 4. Set the cache Compression mode
+The cache provides an option to compress the data to improve 
+memory efficiency . It currently has two options 
+1. LZ4 -> works well for partially random or non random data . 
+2. Default ( No compression)   
+``` store.setCompression('LZ4')```  
+
+### 5. Usage of cache methods to manage your data store 
 ```1. store.get(key) --> async method (to be used with await)```  
 ```2. store.put(key , data) --> async method```
 
-### 5. Metrics 
+### 6. Metrics 
 ```1. hitRatio()```  
 ```2. missRatio()```  
 ```3. memoryConsumption()```
