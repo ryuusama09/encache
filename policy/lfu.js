@@ -1,4 +1,5 @@
 const policy = require('./base')
+const Node = require('./dbl')
 class LFU extends policy{
     constructor(memory , monitor ){
         super('LFU')
