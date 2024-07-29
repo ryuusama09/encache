@@ -1,5 +1,4 @@
-// library for cache-node .... 
-// 
+// This file is the entry point for the cache module.
 
 const policyFactory = require('./policy/policy') 
 const memory = require('./memory/module')
@@ -19,16 +18,16 @@ class cache{
        this.policy = policyFactory.create(policy , this.memory , this.monitor)
     }
     setTTL(ttl){
-        if(this.policy.type() !== 'TTL')throw new Error('policy not set to TTL')
+        if(this.policy.type() !== 'TTL'){throw new Error('policy not set to TTL')}
         this.policy.validity = ttl
     }
     async put(key , data){
-        if(this.policy === null) throw new Error('policy not set')
+        if(this.policy === null) {throw new Error('policy not set')}
         data = await this.compressor.compress(data)
         await this.policy.put(key ,data)
     }    
     async get(key){
-       if(this.policy === null) throw new Error('policy not set')
+       if(this.policy === null) {throw new Error('policy not set')}
        let data = await this.policy.get(key)
        return await this.compressor.decompress(data)
     }

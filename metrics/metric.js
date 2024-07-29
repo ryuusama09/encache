@@ -1,4 +1,4 @@
-const sizeof = require('object-sizeof')
+
 class monitor {
 
     constructor(memory) {
@@ -21,7 +21,7 @@ class monitor {
     memoryConsumption() {
         return this.memory.current
     }
-    Latency(time) {
+    Latency() {
         // to be implemented 
     }
 

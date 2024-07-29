@@ -47,7 +47,6 @@ class FIFO extends policy {
   }
   async evict() {
     const key = this.queue[0]
-    const value = this.memory.get(key)  
     const release = await this.memory.mutexPool.get(this.memory.getHash(key)).acquire()
     try{
     this.queue.shift()
