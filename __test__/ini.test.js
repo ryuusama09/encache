@@ -1,6 +1,6 @@
 const Cache = require('../index');
  
-describe('Cache Initializ', () => {
+describe('Cache Initialization', () => {
         let store
         beforeEach(() => {
             store = new Cache();
