@@ -1,8 +1,8 @@
 class policy {
-    constructor(type) {
-      this.type = type
+    constructor(name) {
+      this.name = name
     }
-    type(){return this.type}
+    type(){return this.name}
     get() { }
     put() { }
     safe(){ }
