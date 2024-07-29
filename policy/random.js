@@ -4,7 +4,7 @@ const sizeof = require('object-sizeof')
 
 class Random extends policy{
     constructor(memory , monitor){
-        super('Random')
+        super('RANDOM')
         this.memory = memory
         this.monitor = monitor
         this.keys = new Map()

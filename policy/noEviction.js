@@ -3,7 +3,7 @@ const sizeof = require('object-sizeof')
 
 class NoEviction extends policy {
     constructor(memory, monitor) {
-        super('NoEviction')
+        super('NO_EVICTION')
         this.memory = memory
         this.monitor = monitor
     }
