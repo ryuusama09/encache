@@ -15,6 +15,9 @@
   "compilerOptions": {
     "module": "commonjs"
   },
+  "eslintIgnore" : [
+    "__test__"
+  ],
   "main": "index.js",
   "scripts": {
     "test": "jest --coverage __test__",

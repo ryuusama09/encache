@@ -20,7 +20,7 @@ const policy = require('./base')
 
 class TTL extends policy {
   constructor(memory , monitor){
-    super()
+    super('TTL')
     this.memory = memory
     this.monitor = monitor
     this.ttl = new Map()

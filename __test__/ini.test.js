@@ -29,6 +29,11 @@ describe('Cache Initialization', () => {
             store.setPolicy('FIFO');
             expect(() => store.setTTL(1000)).toThrow('policy not set to TTL');
         });
+        test('ensure that ttl is set to the desired value', () => {
+            store.setPolicy('TTL');
+            store.setTTL(1000);
+            expect(store.policy.validity).toBe(1000);
+        });
 
 
 

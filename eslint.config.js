@@ -6,7 +6,7 @@ module.exports = [
   { 
     ignores :[
       'node_modules',
-      '__test__/*'
+      '__test__/'
     ],
     rules: {
       curly :'error'
