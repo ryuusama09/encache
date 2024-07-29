@@ -10,6 +10,7 @@ class cache{
         this.memory = new memory(size)
         this.compressor = compressorFactory.create()
         this.monitor = new monitor(this.memory)
+        this.policy = null
     }
     setCompression(method){
         this.encoder = compressorFactory.create(method)
@@ -22,10 +23,12 @@ class cache{
         this.policy.validity = ttl
     }
     async put(key , data){
+        if(this.policy === null) throw new Error('policy not set')
         data = await this.compressor.compress(data)
         await this.policy.put(key ,data)
     }    
     async get(key){
+       if(this.policy === null) throw new Error('policy not set')
        let data = await this.policy.get(key)
        return await this.compressor.decompress(data)
     }
@@ -38,6 +41,8 @@ class cache{
     memoryConsumption(){
         return this.monitor.memoryConsumption()
     }
+
+
 
 }
 module.exports = cache
