@@ -43,7 +43,7 @@ store.setPolicy('FIFO')
 #### When you set the policy to ttl , you can set the time to live for the 
 #### cache elements in milliseconds 
 ```js
- \\set the volatility to 1000 ms  
+ //set the volatility to 1000 ms  
  store.setTTL(1000)
 ```
 
