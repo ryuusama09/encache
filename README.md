@@ -46,9 +46,12 @@ memory efficiency . It currently has two options
 ```2. store.put(key , data) --> async method```
 
 ### 6. Metrics 
-```1. hitRatio()```  
-```2. missRatio()```  
-```3. memoryConsumption()```
+1. ```hitRatio()```  
+2. ```missRatio()```  
+3. ```memoryConsumption()```  
+4. ```fillRate()```
+5. ```evictionRate()```
+
 
 
 
