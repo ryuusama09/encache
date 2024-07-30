@@ -7,50 +7,91 @@
 
 ## Documentation 
 ### 
-### 1. Importing the cache 
+### 1. Downloading and importing the Encache Library
 ####
-``` npm install encache```  
-``` const Cache = require('encache')```
+```bash
+$ npm install encache
+```
+Now to import the cache object , use 
+```js
+const Cache = require('encache')
+```
 #### or
-``` import Cache from 'encache' ```
+```js
+import Cache from 'encache'
+ ```
 
 ### 2. Creating the cache instance 
 by default the cache object reserves 5000 bytes as max memory limit .    
 User can provide custom memory limit to their cache according to performance needs .  
 
-``` const store = new Cache(50)```
+```js
+const store = new Cache(50)
+```
 
 ### 3. Set the cache policy 
-#### currently three policies are available :
+#### currently five policies are available :
 1. FIFO -> Standard Queue based first in , first out policy . Used as the default policy. 
 2. Lazy-TTL -> Lazily checks for the volatile keys based on their time to live.
 3. LRU -> Least recently used keys are evicted first.
 4. Random Eviction -> Randomly Evicts the keys.
 5. No Eviction -> Does not evict any keys if the cache memory limit is being exceeded.
  
-```eg: store.setPolicy('FIFO')```
+```js
+store.setPolicy('FIFO')
+```
 #### When you set the policy to ttl , you can set the time to live for the 
 #### cache elements in milliseconds 
-```\\ set the volatility to 1000 ms ```  
-``` store.setTTL(1000)```
+```js
+ \\set the volatility to 1000 ms  
+ store.setTTL(1000)
+```
 
 ### 4. Set the cache Compression mode
 The cache provides an option to compress the data to improve 
 memory efficiency . It currently has two options 
 1. LZ4 -> works well for partially random or non random data . 
 2. Default ( No compression)   
-``` store.setCompression('LZ4')```  
+```js
+ store.setCompression('LZ4')
+```  
 
-### 5. Usage of cache methods to manage your data store 
-```1. store.get(key) --> async method (to be used with await)```  
-```2. store.put(key , data) --> async method```
+### 5. Usage of cache methods to manage your data store
+ 1. The get method is an async method used to fetch the data stored on a key. It returns data.
+```js
+const fetch = async(key) =>{
+ return await store.get(key)
+}
+```
+2. The put method is also an async method used to store the {key , value}  pair in the cache. It returns nothing.
+```js
+const insert = async(key ,data) =>{
+ await store.put(key , data)
+ return;
+}
+```
 
 ### 6. Metrics 
-1. ```hitRatio()```  
-2. ```missRatio()```  
-3. ```memoryConsumption()```  
-4. ```fillRate()```
-5. ```evictionRate()```
+1. calculated as (number of hits / number of references)
+ ```js
+ return store.hitRatio()
+ ```  
+2.  calculated as 1 - hitRatio
+ ```js
+ return store.missRatio()
+ ```  
+3. Returns the current size of the cache in bytes 
+ ```js
+ return store.memoryConsumption()
+ ```  
+4. The ratio of cache filled . calculated as (current memory/ max memory limit) 
+  ```js 
+  return store.fillRate()
+  ```
+5. The rate at which keys are evicted 
+  ```js
+  return store.evictionRate()
+  ```
 
 
 
