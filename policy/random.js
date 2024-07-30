@@ -13,7 +13,6 @@ class Random extends policy{
         return sizeof(data) + this.memory.current <= this.memory.maxmemory
     }
     async get(_key){
-        this.monitor.reference()
         if(!this.memory.has(_key)){return "key not found"}
         this.monitor.hit()
         return this.memory.get(_key)
@@ -44,6 +43,7 @@ class Random extends policy{
         let keyList = Object.keys(this.memory.store)
         const randomKey = keyList[Math.floor(Math.random() * keyList.length)]
         const key = this.keys.get(randomKey)
+        this.monitor.evict()
         this.memory.delete(key)
         this.memory.mutexPool.delete(randomKey)
     }

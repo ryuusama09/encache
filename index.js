@@ -23,11 +23,13 @@ class cache{
     }
     async put(key , data){
         if(this.policy === null) {throw new Error('policy not set')}
+        this.monitor.reference()
         data = await this.compressor.compress(data)
         await this.policy.put(key ,data)
     }    
     async get(key){
        if(this.policy === null) {throw new Error('policy not set')}
+       this.monitor.reference()
        let data = await this.policy.get(key)
        return await this.compressor.decompress(data)
     }
@@ -39,6 +41,12 @@ class cache{
     }
     memoryConsumption(){
         return this.monitor.memoryConsumption()
+    }
+    fillRate() {
+        return this.monitor.fillRate()
+    }
+    evictionRate() {
+        return this.monitor.evictionRate()
     }
 
 

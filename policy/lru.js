@@ -28,7 +28,6 @@ class LRU extends policy {
         node = null
     }
     async get(_key){
-        this.monitor.reference()
         if(!this.memory.has(_key)){return "key not found"}
         this.monitor.hit()
         const node = this.lruMap.get(_key)
@@ -78,6 +77,7 @@ class LRU extends policy {
         try{
         this.remove(delNode)
         this.memory.delete(key)
+        this.monitor.evict()
         this.lruMap.delete(key)
         this.memory.mutexPool.delete(this.memory.getHash(key))
         }finally{

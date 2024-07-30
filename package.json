@@ -7,7 +7,7 @@
   },
   "name": "encache",
   "description": "overly lightweight inmemory cache for your nodejs server",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "repository": {
     "type": "git",
     "url": "https://github.com/ryuusama09/encache"
@@ -15,7 +15,7 @@
   "compilerOptions": {
     "module": "commonjs"
   },
-  "eslintIgnore" : [
+  "eslintIgnore": [
     "__test__"
   ],
   "main": "index.js",
@@ -27,7 +27,9 @@
   "author": "@ryuusama09 , @dedsec_29",
   "license": "ISC",
   "devDependencies": {
+    "body-parser": "^1.20.2",
     "eslint": "^9.8.0",
+    "express": "^4.19.2",
     "globals": "^15.8.0",
     "husky": "^9.1.3",
     "jest": "^29.7.0",

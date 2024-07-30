@@ -14,7 +14,6 @@ class FIFO extends policy {
     return sizeof(data) + this.memory.current <= this.memory.maxmemory
   }
   get(_key) {
-    this.monitor.reference()
     if(!this.memory.has(_key)){return "key not found"}
     this.monitor.hit()  
     return this.memory.get(_key)
@@ -51,6 +50,7 @@ class FIFO extends policy {
     try{
     this.queue.shift()
     this.memory.delete(key)
+    this.monitor.evict()
     this.memory.mutexPool.delete(this.memory.getHash(key))
     }finally{
       release()

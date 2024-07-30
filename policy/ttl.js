@@ -39,7 +39,6 @@ class TTL extends policy {
   }
 
   async get(_key) {
-    this.monitor.reference()
     if(!this.memory.has(_key)){return "key not found"}
     if(this.expired(_key)){
       this.evict(_key)
@@ -100,6 +99,7 @@ class TTL extends policy {
     try{
       await this.remove(delNode)
       this.memory.delete(key)
+      this.monitor.evict()
       this.memory.mutexPool.delete(this.memory.getHash(key))
       this.memory.current -= sizeof(value)
     }finally{
