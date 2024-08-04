@@ -1,5 +1,6 @@
 const policy = require('./base')
 const Node = require('./dbl')
+const sizeof = require('object-sizeof')
 
 class LFU extends policy{
     constructor(memory , monitor ){
@@ -16,11 +17,15 @@ class LFU extends policy{
         this.freq = new Map()
         this.groupMembersCount = new Map()
     }
+    safe(data) {
+        return sizeof(data) + this.memory.current <= this.memory.maxmemory
+    }
 
     async get(_key, toHit = true) {
         if(!this.memory.has(_key)){return "key not found"}
-        if (toHit)
+        if (toHit){
             this.monitor.hit()
+        }
         
         const node = this.address.get(_key);
         this.cyclicallyRotateLeft(node, this.lastInGroup.get(this.freq.get(_key)));
@@ -42,6 +47,7 @@ class LFU extends policy{
         this.lastInGroup.set(this.freq.get(_key), node);
 
         return this.memory.get(_key)
+        
     }
 
     async put(key, value) {
@@ -98,7 +104,7 @@ class LFU extends policy{
     }
 
     cyclicallyRotateLeft(L, R) {
-        if (L === R) return;
+        if (L === R){ return; }
         const a = L.prev;
         const b = R.next;
         a.next = L.next;

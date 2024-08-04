@@ -24,12 +24,21 @@ describe('Monitor Initialization', () => {
         test('hitRatio function should return hits/references ', () => {
             mockObject.hits = 10;
             mockObject.references = 20;
-            expect(mockObject.hitRatio()).toBe(0.5);
+            expect(mockObject.hitRatio()).toBe(0.5.toFixed(3));
         });
         test('missRatio function should return 1 - hitRatio ', () => {
             mockObject.hits = 8;
             mockObject.references = 20;
             expect(mockObject.missRatio()).toBe(1 - mockObject.hitRatio());
+        });
+        test('testing fillRate for correctness', () => {
+            mockObject.memory = {current: 10, maxmemory: 20};
+            expect(mockObject.fillRate()).toBe((10/20).toFixed(3));
+        });
+        test('testing evictionRate for correctness', () => {
+            mockObject.evictions = 8;
+            mockObject.references = 20;
+            expect(mockObject.evictionRate()).toBe((8/20).toFixed(3));
         });
 
         

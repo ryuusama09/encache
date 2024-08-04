@@ -23,7 +23,7 @@ class PolicyFactory {
         return new NoEviction(memory, monitor);
       default:
         {
-          return new FIFO();
+          throw new Error("invalid policy . Please choose from FIFO, LRU, LFU, TTL, RANDOM, NO_EVICTION")
         }
     }
   }

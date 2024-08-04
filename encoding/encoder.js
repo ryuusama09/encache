@@ -22,10 +22,10 @@ class compressorFactory {
             case 'lz4':
                 return new LZ4()
             default:
-                return new Compressor()
+                throw new Error("Invalid compression type passed")
         }
     }
 }
 
 
-module.exports = compressorFactory
+module.exports = {Compressor : Compressor , compressorFactory : compressorFactory}

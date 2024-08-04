@@ -29,6 +29,7 @@ class NoEviction extends policy {
             }
             this.memory.set(_key , data)  
         }finally{
+           
             release()
         }
     }

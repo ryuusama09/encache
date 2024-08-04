@@ -14,6 +14,9 @@ class memory {
     getHash(value) {
         return fnv.fast1a64utf(value.toString());
     }
+    keys(){
+        return Object.keys(this.store)
+    }
     empty(){
         return  Object.keys(this.store).length === 0
     }

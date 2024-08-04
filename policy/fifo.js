@@ -23,6 +23,7 @@ class FIFO extends policy {
     try {
       if (this.memory.has(_key)) {
         release = await this.memory.mutexPool.get(this.memory.getHash(_key)).acquire()
+        console.log("mutex acquired at " , new Date().getTime())
         this.memory.set(_key, data)
         return
       }
@@ -40,6 +41,7 @@ class FIFO extends policy {
      }
 
     } finally {
+      console.log("mutex released at " , new Date().getTime())
       release()
     }
 
