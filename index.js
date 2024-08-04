@@ -24,7 +24,9 @@ class cache {
     //     delete this.monitor
     //     this.monitor = new monitor(this.memory)
     // }
-
+    keys(){
+        return this.policy.keys()
+    }
     setCompression(method) {
         method = method.toString().toLowerCase()
         try {
@@ -35,7 +37,7 @@ class cache {
     }
     setPolicy(policy) {
         try{
-            this.policy = policyFactory.create(policy, this.memory, this.monitor)
+            this.policy = policyFactory.create(policy, this.memory, this.monitor , this.logger)
         } catch(e){
            // console.error(e)
            this.logger.log(e , "error")

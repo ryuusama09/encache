@@ -1,9 +1,10 @@
 const sizeof = require('object-sizeof')
 const Node = require('./dbl')
 const policy = require('./base')
+const fnv = require('fnv-plus')
 
 class LRU extends policy {
-    constructor(memory , monitor){
+    constructor(memory , monitor , logger){
         super('LRU')
         this.memory = memory
         this.monitor = monitor
@@ -12,9 +13,14 @@ class LRU extends policy {
         this.tail = new Node("dummy" , "dummy")
         this.head.next = this.tail
         this.tail.prev = this.head
+        this.keyStore = new Map()
+        this.logger = logger
     }
     safe(data) {
         return sizeof(data) + this.memory.current <= this.memory.maxmemory
+    }
+    keys(){
+        return this.keyStore.values()
     }
     add(node){
         this.head.next.prev = node
@@ -28,27 +34,27 @@ class LRU extends policy {
         node = null
     }
     async get(_key){
+        _key = fnv.fast1a64utf(_key)
         if(!this.memory.has(_key)){return "key not found"}
         this.monitor.hit()
-        const node = this.lruMap.get(_key)
+        const node = this.memory.get(_key)
+        const value = node.value
         this.remove(node)
-        const value = this.memory.get(_key)
-        const newNode = new Node(_key , node.value)
+        const newNode = new Node(_key , value)
         this.add(newNode)
         return value
     }
 
     async put(_key , data){
-        let release = async () => {}
+        const og = _key
+        _key = fnv.fast1a64utf(_key)
         try {
             if(this.memory.has(_key)){
-                release = await this.memory.mutexPool.get(this.memory.getHash(_key)).acquire()
-                const node = this.lruMap.get(_key)
+                const node = this.memory.get(_key)
                 this.remove(node)
                 const newNode = new Node(_key , data)
                 this.add(newNode)
-                this.lruMap.set(_key , newNode)
-                this.memory.set(_key , data)
+                this.memory.set(_key , newNode)
                 return
             }
             try{
@@ -57,15 +63,17 @@ class LRU extends policy {
                         return "cache size is smaller than the data size"}
                     await this.evict()
                 }
+               
             }
             finally{
                 const node = new Node(_key , data)
                 this.add(node)
-                this.lruMap.set(_key , node)
-                this.memory.set(_key , data)     
+                this.memory.set(_key , node)
+                this.keyStore.set(_key , og)
+          
             }
-        } finally {
-            release()
+        } catch(err){
+            this.logger.log(err , "error")
         }
     }
 
@@ -73,15 +81,14 @@ class LRU extends policy {
 
         const delNode = this.tail.prev
         const key = delNode.key
-        const release = await this.memory.mutexPool.get(this.memory.getHash(key)).acquire()
         try{
         this.remove(delNode)
         this.memory.delete(key)
         this.monitor.evict()
-        this.lruMap.delete(key)
-        this.memory.mutexPool.delete(this.memory.getHash(key))
-        }finally{
-            release()
+        this.keyStore.delete(key)
+
+        }catch(err){
+            this.logger.log(err , "error")
         }
     }
 

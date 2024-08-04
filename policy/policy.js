@@ -7,20 +7,20 @@ const Random = require('./random')
 const NoEviction = require('./noEviction')  
 
 class PolicyFactory {
-  static create(type, memory, monitor) {
+  static create(type, memory, monitor, logger) {
     switch (type) {
       case 'FIFO':
-        return new FIFO(memory, monitor);
+        return new FIFO(memory, monitor, logger);
       case 'LRU':
-        return new LRU(memory, monitor);
+        return new LRU(memory, monitor , logger);
       case 'LFU':
-        return new LFU(memory, monitor);
+        return new LFU(memory, monitor, logger);
       case 'TTL':
-        return new TTL(memory, monitor);
+        return new TTL(memory, monitor, logger);
       case 'RANDOM':
-        return new Random(memory, monitor);
+        return new Random(memory, monitor, logger);
       case 'NO_EVICTION':
-        return new NoEviction(memory, monitor);
+        return new NoEviction(memory, monitor, logger);
       default:
         {
           throw new Error("invalid policy . Please choose from FIFO, LRU, LFU, TTL, RANDOM, NO_EVICTION")
