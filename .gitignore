@@ -6,4 +6,4 @@ alice29.txt
 coverage
 c.py
 .gitignore
-logs/app.log
+logs/

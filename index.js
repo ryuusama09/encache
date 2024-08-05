@@ -4,7 +4,7 @@ const policyFactory = require('./policy/policy')
 const memory = require('./memory/module')
 const monitor = require('./metrics/metric')
 const { compressorFactory, Compressor } = require('./encoding/encoder')
-const Logger = require('./logs/logger')
+const Logger = require('./logger/logger')
 const FIFO = require('./policy/fifo')
 const sizeof = require('object-sizeof')
 class cache {

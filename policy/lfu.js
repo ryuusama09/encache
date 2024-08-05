@@ -17,11 +17,14 @@ class LFU extends policy{
         this.lastInGroup = new Map()
         this.freq = new Map()
         this.groupMembersCount = new Map()
+        this.keyStore = new Map()
     }
     safe(data) {
         return sizeof(data) + this.memory.current <= this.memory.maxmemory
     }
-
+    keys(){
+        return this.keyStore.values()
+    }  
     async get(_key, toHit = true) {
         _key = fnv.fast1a64utf(_key)
         if(!this.memory.has(_key)){return "key not found"}
@@ -47,12 +50,14 @@ class LFU extends policy{
         }
         this.cyclicallyRotateLeft(node, this.lastInGroup.get(this.freq.get(_key)));
         this.lastInGroup.set(this.freq.get(_key), node);
-
+        
         return this.memory.get(_key)
 
     }
 
     async put(key, value) {
+        const og = key
+        key = fnv.fast1a64utf(key)
         if (this.address.has(key)) {
             this.address.get(key).val = value;
             this.memory.set(key, value);
@@ -67,13 +72,14 @@ class LFU extends policy{
         }
 
         this.memory.set(key, value);
+        this.keyStore.set(key, og)
         let newLfu = new Node(key, value);
         let lfu = this.head.next;
         lfu.prev = newLfu;
         newLfu.next = lfu;
         this.head.next = newLfu;
         newLfu.prev = this.head;
-
+        
         this.address.set(key, newLfu);
         this.freq.set(key, 1);
         this.groupMembersCount.set(1, (this.groupMembersCount.get(1) || 0) + 1);
@@ -92,6 +98,7 @@ class LFU extends policy{
 
         this.address.delete(lfu.key);
         this.memory.delete(lfu.key);
+        this.keyStore.delete(lfu.key)
         this.monitor.evict()
         
         this.groupMembersCount.set(this.freq.get(lfu.key), (this.groupMembersCount.get(this.freq.get(lfu.key)) || 0) - 1);
@@ -104,7 +111,7 @@ class LFU extends policy{
             this.freq.delete(lfu.key);
         }
     }
-
+    
     cyclicallyRotateLeft(L, R) {
         if (L === R){ return; }
         const a = L.prev;
