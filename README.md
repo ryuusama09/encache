@@ -36,6 +36,7 @@ const store = new Cache(50)
 3. LRU -> Least recently used keys are evicted first.
 4. Random Eviction -> Randomly Evicts the keys.
 5. No Eviction -> Does not evict any keys if the cache memory limit is being exceeded.
+6. LFU -> Evicts the least frequently used keys. 
  
 ```js
 store.setPolicy('FIFO')
@@ -70,28 +71,66 @@ const insert = async(key ,data) =>{
  return;
 }
 ```
+3. The reset method allows the user to reset the cache .It flushes all the keys and resets the metrics and policy specific data.
+```js
+store.reset()
+```
+4. The keys method returns a list of all the available keys in the cache store
+```js 
+let keyList = store.keys()
+console.log(keyList)
+```
 
 ### 6. Metrics 
-1. calculated as (number of hits / number of references)
+The following methods are 
+1. Hit Ratio: calculated as (number of hits / number of references).
+returns a floating point value 
  ```js
  return store.hitRatio()
  ```  
-2.  calculated as 1 - hitRatio
+2. Miss Ratio: calculated as 1 - hitRatio
+returns a floating point value 
  ```js
  return store.missRatio()
  ```  
-3. Returns the current size of the cache in bytes 
+3. Memory Consumption: Returns the approximate current size of the cache in bytes 
+returns an Integer value 
  ```js
  return store.memoryConsumption()
  ```  
-4. The ratio of cache filled . calculated as (current memory/ max memory limit) 
+4. Fill Rate: The ratio of cache filled . calculated as (current memory/ max memory limit) 
+returns a floating point value 
   ```js 
   return store.fillRate()
   ```
-5. The rate at which keys are evicted 
+5. Eviction Rate: The rate at which keys are evicted 
+returns a floating point value 
   ```js
   return store.evictionRate()
   ```
+6. show: It logs all the metrics in console by default . 
+```js
+store.show()
+```
+
+### 7. Logger
+Encache provides an in-house logger to trace the cache , its performance and key movements in a file ```logs/app.log ```.
+For now the logger has been kept closely to cache's scope only and ,however in later iterations we will 
+make it user centric and more suitable for user's custom logging needs.
+Currently , you can:
+1. Set the file logging level (FLL) for your cache. 
+Options
+  - warn
+  - info
+  - error
+  - debug
+  - off
+  - all 
+
+```js
+store.logger.configureFLL(option)
+```
+
 
 
 

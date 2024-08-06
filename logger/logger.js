@@ -20,10 +20,8 @@ class Logger {
     this.logger['console'] = log4js.getLogger('default');
     this.logger['file'] = log4js.getLogger('files');
   }
-  enableFileLogging(option) {
-    console.log(option)
+  configureFLL(option) {
     this.logger['file'].level = option
-    console.log(this.logger['file'].level)
   }
   log(message , level ){
     level = level.toString().toLowerCase()
