@@ -11,21 +11,22 @@ class LZ4 extends Compressor {
     async compress(data) {
         return await compress(data)
     }
-    async decode(data) {
+    async decompress(data) {
         const originalData = await uncompress(data)
         return Buffer.from(originalData).toString()
     }
 }
 class compressorFactory {
     static create(method) {
+        method = method.toString().toLowerCase()
         switch (method) {
             case 'lz4':
                 return new LZ4()
             default:
-                return new Compressor()
+                throw new Error("Invalid compression type passed")
         }
     }
 }
 
 
-module.exports = compressorFactory
+module.exports = {Compressor : Compressor , compressorFactory : compressorFactory}

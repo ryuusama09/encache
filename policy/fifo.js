@@ -1,17 +1,20 @@
 const sizeof = require('object-sizeof')
 const policy = require('./base')
 
-
-
 class FIFO extends policy {
-  constructor(memory, monitor) {
+  constructor(memory, monitor, logger) {
     super('FIFO')
     this.queue = []
     this.memory = memory
     this.monitor = monitor
+    this.logger = logger
+    this.keyStore = new Map()
   }
   safe(data) {
     return sizeof(data) + this.memory.current <= this.memory.maxmemory
+  }
+  keys(){
+     return this.keyStore.store.keys()
   }
   get(_key) {
     if(!this.memory.has(_key)){return "key not found"}
@@ -19,16 +22,13 @@ class FIFO extends policy {
     return this.memory.get(_key)
   }
   async put(_key, data) {
-    let release = async () => { }
     try {
       if (this.memory.has(_key)) {
-        release = await this.memory.mutexPool.get(this.memory.getHash(_key)).acquire()
         this.memory.set(_key, data)
         return
       }
       try{
       while (!this.safe(data)) {
-       // console.log("enter")
         if(this.memory.empty()){
           return "cache size is smaller than the data size"}
         await this.evict()
@@ -39,21 +39,20 @@ class FIFO extends policy {
       this.memory.set(_key, data)
      }
 
-    } finally {
-      release()
+    } catch(err){
+      this.logger.log(err , "error")
     }
 
   }
   async evict() {
+    console.log("evict")
     const key = this.queue[0]
-    const release = await this.memory.mutexPool.get(this.memory.getHash(key)).acquire()
     try{
     this.queue.shift()
     this.memory.delete(key)
     this.monitor.evict()
-    this.memory.mutexPool.delete(this.memory.getHash(key))
-    }finally{
-      release()
+    }catch(err){
+      this.logger.log(err , "error")
     }
   }
 }

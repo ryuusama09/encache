@@ -1,36 +1,42 @@
 const policy = require('./base')
 const sizeof = require('object-sizeof')
 
+
 class NoEviction extends policy {
-    constructor(memory, monitor) {
+    constructor(memory, monitor,logger) {
         super('NO_EVICTION')
         this.memory = memory
         this.monitor = monitor
+        this.logger = logger
     }
     safe(data) {
         return sizeof(data) + this.memory.current <= this.memory.maxmemory
     }
-    async get(_key) {
+    keys(){
+        return this.memory.store.keys()
+    }
+    async get(_key) {  
         if (!this.memory.has(_key)) { return "key not found" }
         this.monitor.hit()
         return this.memory.get(_key)
     }
     async put(_key, data) {
-        let release = async () => { }
+        
         try{
             if(this.memory.has(_key)){
-                release = await this.memory.mutexPool.get(this.memory.getHash(_key)).acquire()
                 this.memory.set(_key , data)
                 return
             }
             if(!this.safe(data)){
-                console.warn(`Cannot Insert ${_key}, Data size exceeds cache size`)
+                this.logger.log(`Cannot Insert ${_key}, Data size exceeds cache size` , "warn")
                 return 
             }
             this.memory.set(_key , data)  
-        }finally{
-            release()
+            return 
+        }catch(err){
+            this.logger.log(err , "error")  
         }
+       
     }
 }
 module.exports = NoEviction
