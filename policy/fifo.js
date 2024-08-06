@@ -1,6 +1,5 @@
 const sizeof = require('object-sizeof')
 const policy = require('./base')
-const fnv = require('fnv-plus')
 
 class FIFO extends policy {
   constructor(memory, monitor, logger) {
@@ -15,17 +14,14 @@ class FIFO extends policy {
     return sizeof(data) + this.memory.current <= this.memory.maxmemory
   }
   keys(){
-     return this.keyStore.values()
+     return this.keyStore.store.keys()
   }
   get(_key) {
-    _key = fnv.fast1a64utf(_key)
     if(!this.memory.has(_key)){return "key not found"}
     this.monitor.hit()  
     return this.memory.get(_key)
   }
   async put(_key, data) {
-    const og = _key
-    _key = fnv.fast1a64utf(_key)
     try {
       if (this.memory.has(_key)) {
         this.memory.set(_key, data)
@@ -41,7 +37,6 @@ class FIFO extends policy {
      finally{ 
       this.queue.push(_key)
       this.memory.set(_key, data)
-      this.keyStore.set(_key , og);
      }
 
     } catch(err){
@@ -56,7 +51,6 @@ class FIFO extends policy {
     this.queue.shift()
     this.memory.delete(key)
     this.monitor.evict()
-    this.keyStore.delete(key)
     }catch(err){
       this.logger.log(err , "error")
     }

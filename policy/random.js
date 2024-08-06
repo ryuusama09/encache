@@ -1,21 +1,18 @@
 
 const policy = require('./base')
 const sizeof = require('object-sizeof')
-const fnv = require('fnv-plus')
 
 class Random extends policy{
     constructor(memory , monitor , logger){
         super('RANDOM')
         this.memory = memory
         this.monitor = monitor
-        this.logger = logger
-        this.keyStore = new Map()
+        this.logger = logger 
     }
     safe(data){
         return sizeof(data) + this.memory.current <= this.memory.maxmemory
     }
     async get(_key){
-        _key = fnv.fast1a64utf(_key)
         if(!this.memory.has(_key)){return "key not found"}
         this.monitor.hit()
         return this.memory.get(_key)
@@ -24,8 +21,6 @@ class Random extends policy{
         return this.keyStore.values()
     }
     async put(_key , data){
-        const og = _key
-        _key = fnv.fast1a64utf(_key)
         try{
             if(this.memory.has(_key)){
                 this.memory.set(_key , data)
@@ -42,7 +37,6 @@ class Random extends policy{
         }
         finally{
             this.memory.set(_key , data)
-            this.keyStore.set(_key , og)
         }
     }
 
@@ -52,7 +46,6 @@ class Random extends policy{
         const randomKey = keyList[Math.floor(Math.random() * keyList.length)]
         this.monitor.evict()
         this.memory.delete(randomKey)
-        this.keyStore.delete(randomKey)   
     }
 }
 

@@ -1,7 +1,7 @@
 const sizeof = require('object-sizeof')
 const Node = require('./dbl')
 const policy = require('./base')
-const fnv = require('fnv-plus')
+
 
 
 class TTL extends policy {
@@ -16,7 +16,6 @@ class TTL extends policy {
     this.head.next = this.tail
     this.tail.prev = this.head
     this.validity = 3600*1000
-    this.keyStore = new Map()
   }
   expired(_key){
     const node = this.memory.get(_key)
@@ -27,10 +26,9 @@ class TTL extends policy {
     return sizeof(data) + this.memory.current <= this.memory.maxmemory
   }
   keys(){
-    return Array.from(this.keyStore.values())
+    return Array.from(this.memory.store.keys())
   }
   async get(_key) {
-    _key = fnv.fast1a64utf(_key)
     if(!this.memory.has(_key)){return "key not found"}
     if(this.expired(_key)){
       this.evict(_key)
@@ -41,8 +39,6 @@ class TTL extends policy {
   }
    
   async put(_key , data){
-    const og = _key
-    _key = fnv.fast1a64utf(_key)
     try {
       if(this.memory.has(_key)){
         this.memory.get(_key).value = data
@@ -57,10 +53,12 @@ class TTL extends policy {
           await this.evict()
         }
       }finally{
-        const newNode = new Node(_key , data , Date.now())
+        
+        const newNode = new Node(" " , data , Date.now())
         await this.add(newNode)
-        this.memory.set(_key , newNode)
-        this.keyStore.set(_key , og)
+        console.time("set")
+        this.memory.set(_key , newNode , sizeof(data))
+        console.timeEnd("set")
       }
     }catch(err){
       this.logger.log(err , "error")
@@ -88,7 +86,6 @@ class TTL extends policy {
       this.memory.delete(key)
       await this.remove(delNode)
       this.monitor.evict()
-      this.keyStore.delete(key)
     }catch(err){
       this.logger.log(err , "error")
     }

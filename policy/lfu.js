@@ -1,7 +1,6 @@
 const policy = require('./base')
 const Node = require('./dbl')
 const sizeof = require('object-sizeof')
-const fnv = require('fnv-plus')
 
 class LFU extends policy{
     constructor(memory , monitor ){
@@ -26,7 +25,6 @@ class LFU extends policy{
         return this.keyStore.values()
     }  
     async get(_key, toHit = true) {
-        _key = fnv.fast1a64utf(_key)
         if(!this.memory.has(_key)){return "key not found"}
         if (toHit){
             this.monitor.hit()
@@ -56,8 +54,6 @@ class LFU extends policy{
     }
 
     async put(key, value) {
-        const og = key
-        key = fnv.fast1a64utf(key)
         if (this.address.has(key)) {
             this.address.get(key).val = value;
             this.memory.set(key, value);
@@ -72,7 +68,6 @@ class LFU extends policy{
         }
 
         this.memory.set(key, value);
-        this.keyStore.set(key, og)
         let newLfu = new Node(key, value);
         let lfu = this.head.next;
         lfu.prev = newLfu;
@@ -98,7 +93,6 @@ class LFU extends policy{
 
         this.address.delete(lfu.key);
         this.memory.delete(lfu.key);
-        this.keyStore.delete(lfu.key)
         this.monitor.evict()
         
         this.groupMembersCount.set(this.freq.get(lfu.key), (this.groupMembersCount.get(this.freq.get(lfu.key)) || 0) - 1);

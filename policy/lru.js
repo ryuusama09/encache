@@ -1,7 +1,6 @@
 const sizeof = require('object-sizeof')
 const Node = require('./dbl')
 const policy = require('./base')
-const fnv = require('fnv-plus')
 
 class LRU extends policy {
     constructor(memory , monitor , logger){
@@ -13,7 +12,6 @@ class LRU extends policy {
         this.tail = new Node("dummy" , "dummy")
         this.head.next = this.tail
         this.tail.prev = this.head
-        this.keyStore = new Map()
         this.logger = logger
     }
     safe(data) {
@@ -34,27 +32,24 @@ class LRU extends policy {
         node = null
     }
     async get(_key){
-        _key = fnv.fast1a64utf(_key)
         if(!this.memory.has(_key)){return "key not found"}
         this.monitor.hit()
         const node = this.memory.get(_key)
         const value = node.value
         this.remove(node)
-        const newNode = new Node(_key , value)
+        const newNode = new Node(" " , value)
         this.add(newNode)
         return value
     }
 
     async put(_key , data){
-        const og = _key
-        _key = fnv.fast1a64utf(_key)
         try {
             if(this.memory.has(_key)){
                 const node = this.memory.get(_key)
                 this.remove(node)
-                const newNode = new Node(_key , data)
+                const newNode = new Node(" ", data)
                 this.add(newNode)
-                this.memory.set(_key , newNode)
+                this.memory.set(_key , newNode , sizeof(data))
                 return
             }
             try{
@@ -66,11 +61,9 @@ class LRU extends policy {
                
             }
             finally{
-                const node = new Node(_key , data)
+                const node = new Node(" " , data)
                 this.add(node)
-                this.memory.set(_key , node)
-                this.keyStore.set(_key , og)
-          
+                this.memory.set(_key , node , sizeof(data))
             }
         } catch(err){
             this.logger.log(err , "error")
@@ -85,8 +78,6 @@ class LRU extends policy {
         this.remove(delNode)
         this.memory.delete(key)
         this.monitor.evict()
-        this.keyStore.delete(key)
-
         }catch(err){
             this.logger.log(err , "error")
         }

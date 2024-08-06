@@ -9,6 +9,7 @@ const FIFO = require('./policy/fifo')
 const sizeof = require('object-sizeof')
 class cache {
     constructor(size = 5000) {
+        this.size = size
         this.memory = new memory(size)
         this.compressor = new Compressor()
         this.monitor = new monitor(this.memory)
@@ -18,19 +19,22 @@ class cache {
     safe(data){
         return sizeof(data) <= this.memory.maxmemory
     }
-    // reset(){
-    //     delete this.memory
-    //     this.memory = new memory(5000)
-    //     delete this.monitor
-    //     this.monitor = new monitor(this.memory)
-    // }
+    reset(){
+        delete this.memory
+        this.memory = new memory(this.size)
+        delete this.monitor
+        this.monitor = new monitor(this.memory)
+        const type = this.policy.type()
+        delete this.policy
+        this.policy = policyFactory.create(type , this.memory , this.monitor , this.logger)
+    }
     keys(){
         return this.policy.keys()
     }
     setCompression(method) {
         method = method.toString().toLowerCase()
         try {
-            this.encoder = compressorFactory.create(method)
+            this.compressor = compressorFactory.create(method)
         } catch (e) {
            console.error(e)
         }

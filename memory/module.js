@@ -15,10 +15,10 @@ class memory {
     has(key) {
         return this.store.get(key) != null;
     }
-    set(key, value) {
+    set(key, value , ...args) {
         const wasPresent = this.has(key);
         this.store.set(key , value)
-        this.current += wasPresent ? 0 : sizeof(value);
+        this.current += wasPresent ? 0 : sizeof(args[0] || value);
     }
     get(key) {
         return this.has(key) ? this.store.get(key) : null;

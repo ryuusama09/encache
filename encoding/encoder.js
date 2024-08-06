@@ -11,7 +11,7 @@ class LZ4 extends Compressor {
     async compress(data) {
         return await compress(data)
     }
-    async decode(data) {
+    async decompress(data) {
         const originalData = await uncompress(data)
         return Buffer.from(originalData).toString()
     }
