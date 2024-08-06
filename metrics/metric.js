@@ -24,14 +24,14 @@ class monitor {
         return ((1.0 * this.hits )/ this.references).toFixed(3)
     }
     missRatio() {
-        return 1 - this.hitRatio()
+        return (1 - this.hitRatio()).toFixed(3)
     }
     memoryConsumption() {
         return this.memory.current
     }
-    latency() {
-        return ((1.0 * this.access_time)/this.references)
-    }
+    // latency() {
+    //     return ((1.0 * this.access_time)/this.references)
+    // }
     fillRate() {
         return ((1.0 * this.memory.current )/ this.memory.maxmemory).toFixed(3)
     }
