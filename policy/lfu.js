@@ -22,7 +22,7 @@ class LFU extends policy{
         return sizeof(data) + this.memory.current <= this.memory.maxmemory
     }
     keys(){
-        return this.keyStore.values()
+        return Array.from(this.memory.store.keys())
     }  
     async get(_key, toHit = true) {
         if(!this.memory.has(_key)){return "key not found"}

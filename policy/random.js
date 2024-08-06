@@ -18,7 +18,7 @@ class Random extends policy{
         return this.memory.get(_key)
     }
     keys(){
-        return this.keyStore.values()
+        return Array.from(this.memory.store.keys())
     }
     async put(_key , data){
         try{

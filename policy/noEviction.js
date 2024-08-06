@@ -13,7 +13,7 @@ class NoEviction extends policy {
         return sizeof(data) + this.memory.current <= this.memory.maxmemory
     }
     keys(){
-        return this.memory.store.keys()
+        return Array.from(this.memory.store.keys())
     }
     async get(_key) {  
         if (!this.memory.has(_key)) { return "key not found" }

@@ -27,7 +27,6 @@ class Logger {
   }
   log(message , level ){
     level = level.toString().toLowerCase()
-    console.log(this.logger['file'].level)
     switch(level){
       case 'info':
         this.logger['console'].info(message)
@@ -53,13 +52,13 @@ class Logger {
   
 
   show() {
-    this.logger.info('----- Metrics -----',)
-    this.logger.info('memory consumed till now : ',this.monitor.memoryConsumption())
-    this.logger.info('Total Hits: ', this.monitor.hitRatio())
-    this.logger.info('Total Misses: ', this.monitor.missRatio())
-    this.logger.info('fill Rate : ', this.monitor.fillRate())
-    this.logger.info('Eviction Rate : ', this.monitor.evictionRate())
-    this.logger.info('-------------------')
+    this.log('----- Metrics -----',"info")
+    this.log(`memory usage: ${this.monitor.memoryConsumption()} bytes`,"info")
+    this.log(`Total Hits: ${this.monitor.hitRatio()}`,"info")
+    this.log(`Total Misses: ${this.monitor.missRatio()}`,"info")
+    this.log(`fill Rate: ${this.monitor.fillRate()}`,"info")
+    this.log(`Eviction Rate: ${this.monitor.evictionRate()}`,"info")
+    this.log('-------------------' , "info")
 
   }
 

@@ -18,7 +18,7 @@ class LRU extends policy {
         return sizeof(data) + this.memory.current <= this.memory.maxmemory
     }
     keys(){
-        return this.keyStore.values()
+        return Array.from(this.memory.store.keys())
     }
     add(node){
         this.head.next.prev = node

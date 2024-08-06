@@ -14,7 +14,7 @@ class FIFO extends policy {
     return sizeof(data) + this.memory.current <= this.memory.maxmemory
   }
   keys(){
-     return this.keyStore.store.keys()
+     return Array.from(this.memory.store.keys())
   }
   get(_key) {
     if(!this.memory.has(_key)){return "key not found"}
