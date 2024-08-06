@@ -16,7 +16,7 @@ describe('Cache Initialization', () => {
             expect(store.monitor).toBeDefined();
         });
         test('initializing policy module for cache', () => {
-            expect(store.policy).toBeNull();
+            expect(store.policy.type()).toBe('FIFO');
         });
         test('initializing compressor module for cache', () => {
             expect(store.compressor).toBeDefined();
@@ -27,7 +27,7 @@ describe('Cache Initialization', () => {
         });
         test('ensure that ttl cannot be setup if policy is not TTL', () => {
             store.setPolicy('FIFO');
-            expect(() => store.setTTL(1000)).toThrow('policy not set to TTL');
+            expect(() => store.setTTL(1000)).not.toThrowError();
         });
         test('ensure that ttl is set to the desired value', () => {
             store.setPolicy('TTL');

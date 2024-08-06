@@ -1,6 +1,6 @@
 
 
-const fnv = require('fnv-plus');
+
 const sizeof = require('object-sizeof');
 
 class memory {

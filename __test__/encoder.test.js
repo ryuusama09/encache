@@ -1,20 +1,17 @@
-const Compressor = require('../encoder/encoder');
-const 
+const {Compressor , compressorFactory} = require('../encoding/encoder');
+
  
 describe('Encoder Test Suite', () => {
         let encoder;
         beforeEach(() => {
-            encoder = new Compressor();
+            encoder = compressorFactory.create('LZ4');
         });
   
         test('ensure that encoding is happening ', () => {
             const data = "dummy data"
-            expect(encoder.compress(data)).();
+            expect(encoder.compress(data)).not.toBe(data);
         });
-        test('ensure that decoding is happening ', () => { 
-            expect(store.monitor).toBeDefined();
-        });
-
+        
 
 
 

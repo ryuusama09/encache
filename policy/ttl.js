@@ -28,6 +28,9 @@ class TTL extends policy {
   keys(){
     return Array.from(this.memory.store.keys())
   }
+  setTTL(validity){
+    this.validity = validity
+  }
   async get(_key) {
     if(!this.memory.has(_key)){return "key not found"}
     if(this.expired(_key)){

@@ -32,7 +32,6 @@ class cache {
         return this.policy.keys()
     }
     setCompression(method) {
-        method = method.toString().toLowerCase()
         try {
             this.compressor = compressorFactory.create(method)
         } catch (e) {
@@ -42,9 +41,8 @@ class cache {
     setPolicy(policy) {
         try{
             this.policy = policyFactory.create(policy, this.memory, this.monitor , this.logger)
-        } catch(e){
-           // console.error(e)
-           this.logger.log(e , "error")
+        } catch(err){
+           this.logger.log(err , "error")
         }   
     }
     setTTL(ttl) {
@@ -52,7 +50,7 @@ class cache {
             if (this.policy.type() !== 'TTL') { throw new Error('policy not set to TTL') }
             this.policy.setTTL(ttl)
         } catch (err) {
-            console.error(err)
+            this.logger.log(err , "error")
         }
 
     }
@@ -62,8 +60,8 @@ class cache {
         if(!this.safe(data)){throw new Error("Data size exceeds cache size")}
         data = await this.compressor.compress(data)
         await this.policy.put(key, data)
-        }catch(e){
-            console.error(e)
+        }catch(err){
+            this.logger.log(err, "error")
         }
     }
     async get(key) {
