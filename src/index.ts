@@ -94,11 +94,11 @@
 // }
 // module.exports = cache
 
-import memory from './memory';
-import monitor from './metrics';
-import { compressorFactory, Compressor } from './encoding';
-import Logger from './logger';
-import {FIFO , policyFactory} from './policy';
+import memory from './memory/module';
+import monitor from './metrics/metric';
+import { compressorFactory, Compressor } from './encoding/encoder';
+import Logger from './logger/logger';
+import {FIFO , policyFactory} from './policy/index';
 import sizeof from 'object-sizeof';
 
 interface CacheOptions {
@@ -112,7 +112,7 @@ class Cache {
   private compressor: Compressor;
   private monitor: monitor;
   private policy: any;
-  private logger: Logger;
+  public logger: Logger;
 
   constructor(options: CacheOptions = {}) {
     this.size = options.size || 5000;

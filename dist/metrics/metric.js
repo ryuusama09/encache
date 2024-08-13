@@ -1,46 +1,50 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Monitor = /** @class */ (function () {
-    function Monitor(memory) {
+class Monitor {
+    memory; // Assuming memory is an object with a 'current' property
+    hits;
+    references;
+    evictions;
+    accessTime;
+    constructor(memory) {
         this.memory = memory;
         this.hits = 0;
         this.references = 0;
         this.evictions = 0;
         this.accessTime = 0;
     }
-    Monitor.prototype.hit = function () {
+    hit() {
         this.hits++;
-    };
-    Monitor.prototype.reference = function () {
+    }
+    reference() {
         this.references++;
-    };
-    Monitor.prototype.evict = function () {
+    }
+    evict() {
         this.evictions++;
-    };
-    Monitor.prototype.access = function (diff) {
+    }
+    access(diff) {
         this.accessTime += diff;
-    };
-    Monitor.prototype.hitRatio = function () {
+    }
+    hitRatio() {
         return ((1.0 * this.hits) / this.references).toFixed(3);
-    };
-    Monitor.prototype.missRatio = function () {
+    }
+    missRatio() {
         return (1 - Number(this.hitRatio())).toFixed(3);
-    };
-    Monitor.prototype.memoryConsumption = function () {
+    }
+    memoryConsumption() {
         return this.memory.current;
-    };
+    }
     // latency(): number {
     //   return ((1.0 * this.accessTime) / this.references);
     // }
-    Monitor.prototype.fillRate = function () {
+    fillRate() {
         return ((1.0 * this.memory.current) / this.memory.maxmemory).toFixed(3);
-    };
-    Monitor.prototype.evictionRate = function () {
+    }
+    evictionRate() {
         return ((1.0 * this.evictions) / this.references).toFixed(3);
-    };
-    Monitor.prototype.show = function () {
+    }
+    show() {
         // Implement show logic here
-    };
-    return Monitor;
-}());
+    }
+}
 exports.default = Monitor;

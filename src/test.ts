@@ -49,11 +49,11 @@
 
 // //Buffer.from(data, 'base64').toString('utf-8')
 
-import Cache from '.';
-import * as express from 'express';
+import Cache from './index';
+import express, { Request, Response } from 'express';
 import * as bodyParser from 'body-parser';
 
-const app = express();
+const app : any = express();
 app.use(express.json());
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true, parameterLimit: 5000000 }));
@@ -63,10 +63,10 @@ app.listen(3000, () => {
 });
 
 // Assuming the Cache class is defined with generic types
-const cacheInstance = new Cache({size : 30});
+const cacheInstance = new Cache({size : 3000});
 
-//cacheInstance.logger.configureFFL('warn');
-cacheInstance.setPolicy('LFU');
+cacheInstance.logger.configureFLL('all');
+cacheInstance.setPolicy('TTL');
 
 interface CachePutRequest {
     key: string;

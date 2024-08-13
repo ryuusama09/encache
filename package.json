@@ -2,8 +2,7 @@
   "dependencies": {
     "log4js": "^6.9.1",
     "lz4-napi": "^2.2.0",
-    "object-sizeof": "^2.6.5",
-    "ts-node": "^10.9.2"
+    "object-sizeof": "^2.6.5"
   },
   "name": "encache",
   "description": "overly lightweight inmemory cache for your nodejs server",
@@ -20,6 +19,7 @@
   ],
   "main": "index.d.ts",
   "scripts": {
+    "server": "tsc && node dist/test.js",
     "test": "jest  __test__",
     "test-coverage": "jest --coverage __test__",
     "lint": "eslint .",
@@ -28,6 +28,8 @@
   "author": "@ryuusama09 , @dedsec_29",
   "license": "ISC",
   "devDependencies": {
+    "@types/body-parser": "^1.19.5",
+    "@types/express": "^4.17.21",
     "benchmark": "^2.1.4",
     "body-parser": "^1.20.2",
     "chart.js": "^4.4.3",
@@ -44,6 +46,7 @@
     "node-cache": "^5.1.2",
     "perf_hooks": "^0.0.1",
     "prettier": "^3.3.3",
-    "typescript": "^5.5.4"
+    "typescript": "^5.5.4",
+    "webpack": "^5.93.0"
   }
 }

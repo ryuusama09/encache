@@ -1,6 +1,5 @@
 node_modules/
 script.py
-test.js
 try.js
 alice29.txt
 coverage
@@ -8,3 +7,6 @@ c.py
 .gitignore
 logs/
 lol.js
+src/test.ts
+dist/test.js
+dist/test.d.ts

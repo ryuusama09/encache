@@ -15,7 +15,7 @@ class Memory {
     this.current = 0;
   }
 
-  isEmpty(): boolean {
+  empty(): boolean {
     return this.store.size === 0;
   }
 

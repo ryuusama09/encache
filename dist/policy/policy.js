@@ -1,15 +1,16 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var fifo_1 = require("./fifo");
-var lru_1 = require("./lru");
-var lfu_1 = require("./lfu");
-var ttl_1 = require("./ttl");
-var random_1 = require("./random");
-var noEviction_1 = require("./noEviction");
-var PolicyFactory = /** @class */ (function () {
-    function PolicyFactory() {
-    }
-    PolicyFactory.create = function (type, options) {
+const fifo_1 = __importDefault(require("./fifo"));
+const lru_1 = __importDefault(require("./lru"));
+const lfu_1 = __importDefault(require("./lfu"));
+const ttl_1 = __importDefault(require("./ttl"));
+const random_1 = __importDefault(require("./random"));
+const noEviction_1 = __importDefault(require("./noEviction"));
+class PolicyFactory {
+    static create(type, options) {
         switch (type) {
             case 'FIFO':
                 return new fifo_1.default(options);
@@ -26,7 +27,6 @@ var PolicyFactory = /** @class */ (function () {
             default:
                 throw new Error('Invalid policy. Please choose from FIFO, LRU, LFU, TTL, RANDOM, NO_EVICTION');
         }
-    };
-    return PolicyFactory;
-}());
+    }
+}
 exports.default = PolicyFactory;
