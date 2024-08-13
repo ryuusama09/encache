@@ -49,7 +49,7 @@
 
 // //Buffer.from(data, 'base64').toString('utf-8')
 
-import Cache from './index';
+import Cache from '.';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 
