@@ -2,7 +2,8 @@
   "dependencies": {
     "log4js": "^6.9.1",
     "lz4-napi": "^2.2.0",
-    "object-sizeof": "^2.6.5"
+    "object-sizeof": "^2.6.5",
+    "ts-node": "^10.9.2"
   },
   "name": "encache",
   "description": "overly lightweight inmemory cache for your nodejs server",
@@ -17,7 +18,7 @@
   "eslintIgnore": [
     "__test__"
   ],
-  "main": "index.js",
+  "main": "index.d.ts",
   "scripts": {
     "test": "jest  __test__",
     "test-coverage": "jest --coverage __test__",
@@ -42,6 +43,7 @@
     "lodash": "^4.17.21",
     "node-cache": "^5.1.2",
     "perf_hooks": "^0.0.1",
-    "prettier": "^3.3.3"
+    "prettier": "^3.3.3",
+    "typescript": "^5.5.4"
   }
 }
