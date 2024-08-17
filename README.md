@@ -1,4 +1,10 @@
-![image](https://github.com/user-attachments/assets/608f2841-7a0f-400e-8370-d7c8dc24e37c)
+![image](https://github.com/user-attachments/assets/608f2841-7a0f-400e-8370-d7c8dc24e37c)  
+
+[![npm version](https://badge.fury.io/js/encache.svg)](https://badge.fury.io/js/encache)
+![NPM License](https://img.shields.io/npm/l/encache)
+![NPM Downloads](https://img.shields.io/npm/dy/encache)
+![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/m/ryuusama09/encache/main)
+
 
 #### A lightweight , Inmemory Async Cache for your Nodejs Server. <br/>
 1. Quick replacement for inmemory caches like memcache or redis
