@@ -20,20 +20,35 @@ $ npm install encache
 ```
 Now to import the cache object , use 
 ```js
+//commonjs
 const Cache = require('encache')
 ```
 #### or
 ```js
+//esmodule import
 import Cache from 'encache'
  ```
+
 
 ### 2. Creating the cache instance 
 by default the cache object reserves 5000 bytes as max memory limit .    
 User can provide custom memory limit to their cache according to performance needs .  
-Provide an options object to initiate the store , as shown below 
+The cache can be initiated by providing a set of options which are not compulsory.
 ```js
-const store = new Cache({size : 50})
+const options = {
+  size : 5000,
+  policy : "LRU",
+  compression "none"
+}
+const store = new Cache(options)
 ```
+or
+
+```js
+//initiating cache with default values
+const store = new Cache({})
+```
+
 
 ### 3. Set the cache policy 
 #### currently five policies are available :
