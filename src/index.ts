@@ -143,7 +143,7 @@ interface CacheOptions {
     return this.policy.keys();
   }
 
-  setCompression(method: string): void {
+  setCompression(method: any): void {
     try {
       this.compressor = compressorFactory.create(method);
     } catch (e) {

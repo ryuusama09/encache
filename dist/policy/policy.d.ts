@@ -5,6 +5,6 @@ interface PolicyFactoryOptions {
     logger: any;
 }
 declare class PolicyFactory {
-    static create(type: string, options: PolicyFactoryOptions): Policy;
+    static create(type: any, options: PolicyFactoryOptions): Policy;
 }
 export default PolicyFactory;

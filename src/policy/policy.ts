@@ -13,7 +13,10 @@ interface PolicyFactoryOptions {
 }
 
 class PolicyFactory {
-  static create(type: string, options: PolicyFactoryOptions): Policy {
+  static create(type: any, options: PolicyFactoryOptions): Policy {
+    if(type === undefined || type === null) {
+      return new FIFO(options);
+    }
     switch (type ) {
       case 'FIFO':
         return new FIFO(options);
@@ -27,7 +30,7 @@ class PolicyFactory {
         return new Random(options);
       case 'NO_EVICTION':
         return new NoEviction(options);
-      case undefined || '' || null :
+      case '' :
         return new FIFO(options);
       default:
         throw new Error('Invalid policy. Please choose from FIFO, LRU, LFU, TTL, RANDOM, NO_EVICTION');

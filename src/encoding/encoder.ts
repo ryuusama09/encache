@@ -20,13 +20,17 @@ class LZ4 extends Compressor {
       return uncompress(data);
     }
   }
+  
 class compressorFactory {
-    static create(method : String) {
-        method = method.toString().toLowerCase()
+    static create(method :  any) {
+        if(method === null || method === undefined) {
+            return new Compressor()
+        }
+        method =  method.toString().toLowerCase()
         switch (method) {
             case 'lz4':
                 return new LZ4()
-            case undefined || '' || 'none':
+            case 'none' :
                 return new Compressor()
             default:
                 throw new Error("Invalid compression type passed")

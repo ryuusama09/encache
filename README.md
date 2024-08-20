@@ -16,8 +16,14 @@
 ### 1. Downloading and importing the Encache Library
 ####
 ```bash
-$ npm install encache
+ npm install encache
 ```
+To check the version of encache installed , use 
+
+```bash
+ npx encache --version
+```
+
 Now to import the cache object , use 
 ```js
 //commonjs
@@ -150,6 +156,22 @@ Options
 
 ```js
 store.logger.configureFLL(option)
+```
+### 8. Tests
+Encache uses JEST testing framework to develop its core unit tests. The code coverage as of now 
+is very low , but is expected to be gradually improved 
+To run the tests , use the following command 
+
+ 1. without coverage report
+
+ ```bash
+ npm run test
+ ```
+
+ 2. with coverage report
+
+ ```bash
+  npm run test 
 ```
 
 

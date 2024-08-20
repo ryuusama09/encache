@@ -17,7 +17,7 @@ declare class Cache {
     safe(data: any): boolean;
     reset(): void;
     keys(): string[];
-    setCompression(method: string): void;
+    setCompression(method: any): void;
     setPolicy(policy: any): void;
     setTTL(ttl: number): void;
     put(key: string, data: any): Promise<void>;

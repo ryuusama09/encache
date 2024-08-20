@@ -11,6 +11,9 @@ const random_1 = __importDefault(require("./random"));
 const noEviction_1 = __importDefault(require("./noEviction"));
 class PolicyFactory {
     static create(type, options) {
+        if (type === undefined || type === null) {
+            return new fifo_1.default(options);
+        }
         switch (type) {
             case 'FIFO':
                 return new fifo_1.default(options);
@@ -24,7 +27,7 @@ class PolicyFactory {
                 return new random_1.default(options);
             case 'NO_EVICTION':
                 return new noEviction_1.default(options);
-            case undefined || '' || null:
+            case '':
                 return new fifo_1.default(options);
             default:
                 throw new Error('Invalid policy. Please choose from FIFO, LRU, LFU, TTL, RANDOM, NO_EVICTION');

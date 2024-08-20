@@ -3,6 +3,6 @@ declare class Compressor {
     decompress(data: any): any;
 }
 declare class compressorFactory {
-    static create(method: String): Compressor;
+    static create(method: any): Compressor;
 }
 export { Compressor, compressorFactory };
