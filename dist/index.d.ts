@@ -1,12 +1,14 @@
+import memory from './memory/module';
+import monitor from './metrics/metric';
 import Logger from './logger/logger';
 interface CacheOptions {
     size?: number;
 }
 declare class Cache {
-    private size;
-    private memory;
+    size: number;
+    memory: memory;
     private compressor;
-    private monitor;
+    monitor: monitor;
     private policy;
     logger: Logger;
     constructor(options?: CacheOptions);
@@ -25,4 +27,4 @@ declare class Cache {
     evictionRate(): any;
     show(): void;
 }
-export default Cache;
+export = Cache;

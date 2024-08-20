@@ -25,11 +25,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const log4js = __importStar(require("log4js"));
 class Logger {
-    consoleEnabled;
-    fileLoggingEnabled;
-    logFilePath;
-    logger;
-    monitor; // Assuming monitor is an object with required methods
     constructor(options = {}, monitor) {
         this.consoleEnabled = options.consoleEnabled || true;
         this.fileLoggingEnabled = options.fileLoggingEnabled || false;

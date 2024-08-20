@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class Policy {
-    name;
     constructor(name) {
         this.name = name;
     }

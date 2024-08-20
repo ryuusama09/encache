@@ -2,7 +2,8 @@
   "dependencies": {
     "log4js": "^6.9.1",
     "lz4-napi": "^2.2.0",
-    "object-sizeof": "^2.6.5"
+    "object-sizeof": "^2.6.5",
+    "ts-node": "^10.9.2"
   },
   "name": "encache",
   "description": "overly lightweight inmemory cache for your nodejs server",
@@ -17,13 +18,16 @@
   "eslintIgnore": [
     "__test__"
   ],
-  "main": "index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+
   "scripts": {
     "server": "tsc && node dist/test.js",
     "test": "jest  __test__",
     "test-coverage": "jest --coverage __test__",
     "lint": "eslint .",
-    "lint-fix": "eslint --fix "
+    "lint-fix": "eslint --fix ",
+    "compile" : "ts-node src/index.ts"
   },
   "author": "@ryuusama09 , @dedsec_29",
   "license": "ISC",

@@ -5,9 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const object_sizeof_1 = __importDefault(require("object-sizeof")); // Import all members for potential future use
 class Memory {
-    store;
-    maxmemory;
-    current;
     constructor(options) {
         this.store = new Map();
         this.maxmemory = options.limit;

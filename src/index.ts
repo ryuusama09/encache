@@ -105,12 +105,12 @@ interface CacheOptions {
   size?: number;
 }
 
-class Cache {
+ class Cache {
   
-  private size: number;
-  private memory: memory;
+  public size: number;
+  public memory: memory;
   private compressor: Compressor;
-  private monitor: monitor;
+  public monitor: monitor;
   private policy: any;
   public logger: Logger;
 
@@ -212,5 +212,6 @@ class Cache {
   }
 }
 
-export default Cache;
+export = Cache; 
+
 

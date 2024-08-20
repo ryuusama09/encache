@@ -1,11 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class Monitor {
-    memory; // Assuming memory is an object with a 'current' property
-    hits;
-    references;
-    evictions;
-    accessTime;
     constructor(memory) {
         this.memory = memory;
         this.hits = 0;

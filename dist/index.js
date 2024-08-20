@@ -1,9 +1,17 @@
 "use strict";
 // This file is the entry point for the cache module.
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
 // const policyFactory = require('./policy/policy')
 // const memory = require('./memory/module')
 // const monitor = require('./metrics/metric')
@@ -99,12 +107,6 @@ const logger_1 = __importDefault(require("./logger/logger"));
 const index_1 = require("./policy/index");
 const object_sizeof_1 = __importDefault(require("object-sizeof"));
 class Cache {
-    size;
-    memory;
-    compressor;
-    monitor;
-    policy;
-    logger;
     constructor(options = {}) {
         this.size = options.size || 5000;
         this.memory = new module_1.default({ limit: this.size });
@@ -155,23 +157,27 @@ class Cache {
             this.logger.log(err, "error");
         }
     }
-    async put(key, data) {
-        try {
-            this.monitor.reference();
-            if (!this.safe(data)) {
-                throw new Error("Data size exceeds cache size");
+    put(key, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                this.monitor.reference();
+                if (!this.safe(data)) {
+                    throw new Error("Data size exceeds cache size");
+                }
+                data = yield this.compressor.compress(data);
+                yield this.policy.put(key, data);
             }
-            data = await this.compressor.compress(data);
-            await this.policy.put(key, data);
-        }
-        catch (err) {
-            this.logger.log(err, "error");
-        }
+            catch (err) {
+                this.logger.log(err, "error");
+            }
+        });
     }
-    async get(key) {
-        this.monitor.reference();
-        let data = await this.policy.get(key);
-        return await this.compressor.decompress(data);
+    get(key) {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.monitor.reference();
+            let data = yield this.policy.get(key);
+            return yield this.compressor.decompress(data);
+        });
     }
     hitRatio() {
         return this.monitor.hitRatio();
@@ -192,4 +198,4 @@ class Cache {
         this.logger.show();
     }
 }
-exports.default = Cache;
+module.exports = Cache;
