@@ -171,8 +171,9 @@ To run the tests , use the following command
  2. with coverage report
 
  ```bash
-  npm run test 
+  npm run test-coverage
 ```
+##THANK YOU FOR READING PATIENTLY 
 
 
 

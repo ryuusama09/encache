@@ -7,7 +7,7 @@
   },
   "name": "encache",
   "description": "overly lightweight inmemory cache for your nodejs server",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/ryuusama09/encache"
