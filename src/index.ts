@@ -102,7 +102,9 @@ import {FIFO , policyFactory} from './policy/index';
 import sizeof from 'object-sizeof';
 
 interface CacheOptions {
-  size?: number;
+  size?: number,
+  compression? : string,
+  policy? : string
 }
 
  class Cache {
@@ -117,10 +119,10 @@ interface CacheOptions {
   constructor(options: CacheOptions = {}) {
     this.size = options.size || 5000;
     this.memory = new memory({limit : this.size});
-    this.compressor = new Compressor();
+    this.setCompression(options.compression);
     this.monitor = new monitor(this.memory);
     this.logger = new Logger({}, this.monitor);
-    this.policy = new FIFO({memory : this.memory, monitor : this.monitor , logger : this.logger});
+    this.setPolicy(options.policy);
   }
 
   safe(data: any): boolean {
@@ -134,7 +136,7 @@ interface CacheOptions {
     this.monitor = new monitor(this.memory);
     const type = this.policy.type();
     delete this.policy;
-    this.policy = policyFactory.create(type, { memory: this.memory, monitor : this.monitor, logger : this.logger});
+    this.policy = this.setPolicy(type);
   }
 
   keys(): string[] {

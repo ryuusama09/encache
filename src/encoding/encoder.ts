@@ -26,6 +26,8 @@ class compressorFactory {
         switch (method) {
             case 'lz4':
                 return new LZ4()
+            case undefined || '' || 'none':
+                return new Compressor()
             default:
                 throw new Error("Invalid compression type passed")
         }

@@ -110,10 +110,10 @@ class Cache {
     constructor(options = {}) {
         this.size = options.size || 5000;
         this.memory = new module_1.default({ limit: this.size });
-        this.compressor = new encoder_1.Compressor();
+        this.setCompression(options.compression);
         this.monitor = new metric_1.default(this.memory);
         this.logger = new logger_1.default({}, this.monitor);
-        this.policy = new index_1.FIFO({ memory: this.memory, monitor: this.monitor, logger: this.logger });
+        this.setPolicy(options.policy);
     }
     safe(data) {
         return (0, object_sizeof_1.default)(data) <= this.memory.maxmemory;
@@ -125,7 +125,7 @@ class Cache {
         this.monitor = new metric_1.default(this.memory);
         const type = this.policy.type();
         delete this.policy;
-        this.policy = index_1.policyFactory.create(type, { memory: this.memory, monitor: this.monitor, logger: this.logger });
+        this.policy = this.setPolicy(type);
     }
     keys() {
         return this.policy.keys();

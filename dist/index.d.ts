@@ -3,6 +3,8 @@ import monitor from './metrics/metric';
 import Logger from './logger/logger';
 interface CacheOptions {
     size?: number;
+    compression?: string;
+    policy?: string;
 }
 declare class Cache {
     size: number;

@@ -30,9 +30,9 @@ import Cache from 'encache'
 ### 2. Creating the cache instance 
 by default the cache object reserves 5000 bytes as max memory limit .    
 User can provide custom memory limit to their cache according to performance needs .  
-
+Provide an options object to initiate the store , as shown below 
 ```js
-const store = new Cache(50)
+const store = new Cache({size : 50})
 ```
 
 ### 3. Set the cache policy 

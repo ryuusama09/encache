@@ -24,6 +24,8 @@ class PolicyFactory {
                 return new random_1.default(options);
             case 'NO_EVICTION':
                 return new noEviction_1.default(options);
+            case undefined || '' || null:
+                return new fifo_1.default(options);
             default:
                 throw new Error('Invalid policy. Please choose from FIFO, LRU, LFU, TTL, RANDOM, NO_EVICTION');
         }
