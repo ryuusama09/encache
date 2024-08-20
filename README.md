@@ -173,7 +173,7 @@ To run the tests , use the following command
  ```bash
   npm run test-coverage
 ```
-##THANK YOU FOR READING PATIENTLY 
+## THANK YOU FOR READING PATIENTLY 
 
 
 
